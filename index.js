@@ -1,10 +1,10 @@
 const express = require('express')
 const connectToMongo = require('./Database/db')
+require('dotenv').config()
 
 const app = express()
-const PORT = 5000
+const PORT = process.env.PORT
 connectToMongo() 
-
 // for using json 
 app.use(express.json())
 // Available Routes

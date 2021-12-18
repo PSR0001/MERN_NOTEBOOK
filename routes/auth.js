@@ -5,13 +5,24 @@ const { body, validationResult } = require('express-validator');
 // require bcryptJS
 const bcrypt = require('bcryptjs');
 
+// require Dotenv file
+require('dotenv').config()
+
+// requireJWT token for user authentication
+var jwt = require('jsonwebtoken');
+
+
 // Create a User Using: POST /api/auth/createuser No log in require
 router.post('/createuser', [
+
     body('name', 'Enter Your Name!').isLength({ min: 3 }),
+
     // username must be an email
     body('email', 'Enter a Valid Email!').isEmail(),
+
     // password must be at least 5 chars long
     body('password', 'Your Password Atleast minimun 5 in Character').isLength({ min: 5 }),
+
 ], async (req, res) => {
     try {
         // if the user is not valid so return bad request 
@@ -25,6 +36,7 @@ router.post('/createuser', [
             return res.status(400).json({ error: "Sorry a user with this Email already exists!" })
         }
 
+        // using Bcrypt hashing and salting proccess
         const salt = await bcrypt.genSalt(10)
         const secretPassword = await bcrypt.hash(req.body.password, salt)
 
@@ -35,7 +47,14 @@ router.post('/createuser', [
             password: secretPassword,
         })
 
-        res.json(user)
+        const data={
+            user:{
+                id:user.id
+            }
+        }
+       const authToken= jwt.sign(data,process.env.JWT_STRING)
+
+        res.json({authToken})
     }
     // catching the errors
     catch (error) {
