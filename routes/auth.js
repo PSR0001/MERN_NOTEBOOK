@@ -56,7 +56,7 @@ router.post('/createuser', [
         }
         const authToken = jwt.sign(data, process.env.JWT_STRING)
 
-        res.json({ authToken })
+        res.json({success:true, authToken })
     }
     // catching the errors
     catch (error) {
@@ -101,7 +101,7 @@ router.post('/userlogin', [
             }
         }
         const authToken = jwt.sign(data, process.env.JWT_STRING)
-        res.json({ authToken })
+        res.json({success:true, authToken })
 
     }
     catch (error) {
