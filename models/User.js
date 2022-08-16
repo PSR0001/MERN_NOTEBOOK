@@ -21,7 +21,8 @@ const UserSchema = new Schema({
     },
 });
 
-const User = mongoose.model('user', UserSchema)
+mongoose.models={}
+const User = mongoose.model('users', UserSchema)
 // for unique value of email
 // User.createIndexes()
 module.exports = User

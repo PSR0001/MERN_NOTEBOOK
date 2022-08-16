@@ -37,6 +37,8 @@ router.post('/createuser', [
         if (user) {
             return res.status(400).json({ error: "Sorry a user with this Email already exists!" })
         }
+        //if user not exist
+        else{
 
         // using Bcrypt hashing and salting proccess
         const salt = await bcrypt.genSalt(10)
@@ -58,11 +60,14 @@ router.post('/createuser', [
 
         res.json({success:true, authToken })
     }
+}
     // catching the errors
     catch (error) {
         console.log(error)
         res.status(500).send('Internal Server Error!')
     }
+
+
 })
 
 
